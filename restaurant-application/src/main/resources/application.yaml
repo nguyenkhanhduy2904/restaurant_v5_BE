@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: restaurant-application
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?sslMode=REQUIRED
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  config:
+    import: optional:file:.env[.properties]
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: 86400000 #1 day
+  refresh-expiration-ms: 2592000000 #30 day
+
+cloudflare:
+  r2:
+    account-id: ${R2_ACCOUNT_ID}
+    access-key: ${R2_ACCESS_KEY}
+    secret-key: ${R2_SECRET_KEY}
+    bucket: ${R2_BUCKET}
+    public-url: ${R2_PUBLIC_URL}
