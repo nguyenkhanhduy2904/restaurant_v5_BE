@@ -75,7 +75,6 @@ public class OrderController {
             Pageable pageable
     ){
         return ApiResponse.ok(orderService.getOrders(status, pageable));
-
     }
 
     @PatchMapping("/{id}/status")
@@ -83,13 +82,4 @@ public class OrderController {
     public ApiResponse<UpdateOrderStatusResponse> updateOrderStatus(@Valid @RequestBody UpdateOrderStatusRequest status, @PathVariable String id){
         return ApiResponse.ok(orderService.updateOrderStatus(status, id));
     }
-
-
-
-
-
-
-
-
-
 }

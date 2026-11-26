@@ -22,6 +22,11 @@ public class AuthController {
     public ApiResponse<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ApiResponse.ok(authService.register(request));
     }
+    @PostMapping("/register-admin")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<AuthResponse> registerAdmin(@Valid @RequestBody RegisterRequest request) {
+        return ApiResponse.ok(authService.registerAdmin(request));
+    }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
