@@ -25,6 +25,14 @@ public class UploadImageController {
         return ApiResponse.ok(uploadImageService.requestProductUpload( id, request));
     }
 
+    @PostMapping("/avatar")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<PresignedUploadResponse> requestAvatarUpload(@AuthenticationPrincipal String id, @Valid @RequestBody PresignedUploadRequest request){
+        return ApiResponse.ok(uploadImageService.requestAvatarUpload( id, request));
+    }
+
+
+
     @PostMapping("/complete")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<CompleteUploadResponse> confirmUpload(@AuthenticationPrincipal String id,@Valid @RequestBody CompleteUploadRequest request){

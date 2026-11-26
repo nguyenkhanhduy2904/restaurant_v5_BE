@@ -9,10 +9,7 @@ import com.nkduy.restaurant_application.image.service.UploadImageService;
 import com.nkduy.restaurant_application.ingredient.entity.Ingredient;
 import com.nkduy.restaurant_application.ingredient.repository.IngredientRepository;
 import com.nkduy.restaurant_application.mapper.ProductMapper;
-import com.nkduy.restaurant_application.product.dto.request.CreateProductRequest;
-import com.nkduy.restaurant_application.product.dto.request.CreateTagRequest;
-import com.nkduy.restaurant_application.product.dto.request.UpdateProductRequest;
-import com.nkduy.restaurant_application.product.dto.request.UpdateTagRequest;
+import com.nkduy.restaurant_application.product.dto.request.*;
 import com.nkduy.restaurant_application.product.dto.response.ProductResponse;
 import com.nkduy.restaurant_application.product.dto.response.ProductSummaryResponse;
 import com.nkduy.restaurant_application.product.dto.response.TagResponse;
@@ -278,4 +275,10 @@ public class ProductService {
     }
 
 
+    public List<TagResponse> getTagList(TagListRequest request) {
+        return tagRepository.findAllById(request.tagIds())
+                .stream()
+                .map(productMapper::toTagResponse)
+                .toList();
+    }
 }

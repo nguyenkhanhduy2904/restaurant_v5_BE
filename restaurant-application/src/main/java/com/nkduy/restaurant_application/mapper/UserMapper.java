@@ -6,13 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
-    public UserInfoResponse toUserInfoResponse(User user) {
+    public UserInfoResponse toUserInfoResponse(User user, String avatarUrl) {
         return new UserInfoResponse(
                 user.getId()
                 , user.getDisplayName()
                 , user.getRole()
                 , user.getStatus()
                 , user.getPhone()
-                , user.getGender());
+                , user.getGender()
+        , avatarUrl);
+
     }
 }

@@ -1,13 +1,10 @@
 package com.nkduy.restaurant_application.product.controller;
 
 import com.nkduy.restaurant_application.auth.dto.ApiResponse;
-import com.nkduy.restaurant_application.product.dto.request.CreateProductRequest;
-import com.nkduy.restaurant_application.product.dto.request.CreateTagRequest;
-import com.nkduy.restaurant_application.product.dto.request.UpdateProductRequest;
+import com.nkduy.restaurant_application.product.dto.request.*;
 import com.nkduy.restaurant_application.product.dto.response.ProductResponse;
 import com.nkduy.restaurant_application.product.dto.response.ProductSummaryResponse;
 import com.nkduy.restaurant_application.product.dto.response.TagResponse;
-import com.nkduy.restaurant_application.product.dto.request.UpdateTagRequest;
 import com.nkduy.restaurant_application.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +15,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -70,6 +68,12 @@ public class ProductController {
 
     ){
         return ApiResponse.ok(productService.getAllTags(name, pageable));
+    }
+
+    @GetMapping("/tag/list")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<List<TagResponse>> getTags(@RequestBody TagListRequest request){
+        return ApiResponse.ok(productService.getTagList(request));
     }
 
     @PatchMapping("/tag/{id}")

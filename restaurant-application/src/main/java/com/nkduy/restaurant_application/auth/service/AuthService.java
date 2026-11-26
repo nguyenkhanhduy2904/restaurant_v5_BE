@@ -6,9 +6,11 @@ import com.nkduy.restaurant_application.auth.dto.request.RegisterRequest;
 import com.nkduy.restaurant_application.auth.dto.response.AuthResponse;
 import com.nkduy.restaurant_application.auth.entity.LocalCredential;
 import com.nkduy.restaurant_application.auth.repository.LocalCredentialRepository;
+import com.nkduy.restaurant_application.image.service.StorageUrlService;
 import com.nkduy.restaurant_application.mapper.UserMapper;
 import com.nkduy.restaurant_application.user.entity.User;
 import com.nkduy.restaurant_application.user.repository.UserRepository;
+import com.nkduy.restaurant_application.user.service.UserImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +28,8 @@ public class AuthService {
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final RefreshTokenService refreshedTokenService;
+    private final UserImageService userImageService;
+    private final StorageUrlService storageUrlService;
 
 
     @Transactional
@@ -43,7 +47,7 @@ public class AuthService {
 
         localCredentialRepository.save(localCredential);
 
-        return toAuthResponse(newUser);
+        return toAuthResponse(newUser, null);
     }
 
     @Transactional
@@ -60,7 +64,7 @@ public class AuthService {
                 .build();
         localCredentialRepository.save(localCredential);
 
-        return toAuthResponse(newUser);
+        return toAuthResponse(newUser, null);
     }
 
 
@@ -78,11 +82,11 @@ public class AuthService {
     }
 
 
-    public AuthResponse toAuthResponse(User user){
+    public AuthResponse toAuthResponse(User user, String avatarUrl){
         return new AuthResponse(
                 jwtService.generateToken(user),
                 refreshedTokenService.issue(user),
-                userMapper.toUserInfoResponse(user)
+                userMapper.toUserInfoResponse(user, avatarUrl)
         );
     }
 
@@ -97,13 +101,14 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Account is disabled");
         }
 
-        return toAuthResponse(user);
+
+        return toAuthResponse(user, storageUrlService.getPublicUrl(userImageService.getUserAvatarUrl(user.getId())) );
     }
 
     @Transactional
     public AuthResponse refresh(RefreshTokenRequest request) {
         User user = refreshedTokenService.validateAndConsume(request.refreshToken());
-        return toAuthResponse(user);
+        return toAuthResponse(user, storageUrlService.getPublicUrl(userImageService.getUserAvatarUrl(user.getId())));
     }
 
     public Void logOut(RefreshTokenRequest request) {

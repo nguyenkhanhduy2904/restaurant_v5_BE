@@ -29,9 +29,7 @@ public class OrderController {
     @PostMapping("/preview-order")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<PreviewOrderResponse> previewOrder(@Valid @RequestBody PreviewOrderRequest request, @AuthenticationPrincipal String userId){
-
         return ApiResponse.ok(orderService.previewOrder(request, userId));
-
     }
 
     @PostMapping("/create-order")

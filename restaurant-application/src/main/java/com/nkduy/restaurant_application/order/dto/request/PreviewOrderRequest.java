@@ -10,8 +10,8 @@ public record PreviewOrderRequest(
         @NotBlank(message = "Branch ID is required")
         String branchId,
 
-        @NotBlank(message = "User ID is required")
-        String userId,
+//        @NotBlank(message = "User ID is required")
+//        String userId,
 
         @NotBlank(message = "Delivery address is required")
         @Size(max = 255, message = "Address cannot exceed 255 characters")
@@ -27,13 +27,6 @@ public record PreviewOrderRequest(
         @DecimalMax(value = "90.0", message = "Latitude must be <= 90.0")
         BigDecimal latitude,
 
-//        @NotBlank(message = "Contact phone is required")
-//        @Size(max = 20, message = "Contact phone cannot exceed 20 characters")
-//        String contactPhone,
-//
-//        @NotBlank(message = "Contact name is required")
-//        @Size(max = 50, message = "Contact name cannot exceed 50 characters")
-//        String contactName,
 
         @NotEmpty(message = "Order must contain at least one item")
         List<@Valid CreateOrderItemRequest> item,

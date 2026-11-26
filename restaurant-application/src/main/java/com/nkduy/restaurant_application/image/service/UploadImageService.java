@@ -12,6 +12,7 @@ import com.nkduy.restaurant_application.image.entity.UploadStatus;
 import com.nkduy.restaurant_application.image.repository.UploadRepository;
 import com.nkduy.restaurant_application.user.entity.User;
 import com.nkduy.restaurant_application.user.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -66,6 +67,18 @@ public class UploadImageService {
         return new PresignedUploadResponse(
                 request.files().stream()
                         .map(fileRequest -> generatePresignedUploadItem(user, fileRequest, "product"))
+                        .toList()
+        );
+    }
+    public PresignedUploadResponse requestAvatarUpload(String id,PresignedUploadRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "User not found"
+                ));
+        return new PresignedUploadResponse(
+                request.files().stream()
+                        .map(fileRequest -> generatePresignedUploadItem(user, fileRequest, "avatar"))
                         .toList()
         );
     }
@@ -253,6 +266,7 @@ public class UploadImageService {
         upload.setStatus(status);
         return upload;
     }
+
 
 
 }

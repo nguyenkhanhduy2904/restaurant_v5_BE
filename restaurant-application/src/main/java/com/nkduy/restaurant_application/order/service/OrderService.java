@@ -177,10 +177,6 @@ public class OrderService {
 
             priceBreakDown = pricingService.calculate(cart, orderVoucher, loadUserContext(userId));
 
-
-
-
-
         }
         if(priceBreakDown.rejectReason() != null){
             userOrderVoucher = null;

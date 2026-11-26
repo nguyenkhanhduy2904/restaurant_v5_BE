@@ -3,6 +3,7 @@ package com.nkduy.restaurant_application.ingredient.service;
 import com.nkduy.restaurant_application.branch.entity.Branch;
 import com.nkduy.restaurant_application.ingredient.dto.model.IngredientDto;
 import com.nkduy.restaurant_application.ingredient.dto.request.CreateIngredientRequest;
+import com.nkduy.restaurant_application.ingredient.dto.request.IngredientListRequest;
 import com.nkduy.restaurant_application.ingredient.dto.request.UpdateIngredientRequest;
 import com.nkduy.restaurant_application.ingredient.dto.response.CreateIngredientResponse;
 import com.nkduy.restaurant_application.ingredient.dto.response.UpdateIngredientResponse;
@@ -81,5 +82,12 @@ public class IngredientService {
         }
         return new UpdateIngredientResponse(ingredientMapper.toIngredientDto(ingredientRepository.save(ingredient)));
 
+    }
+
+    public List<IngredientDto> getList(IngredientListRequest request) {
+        return ingredientRepository.findAllById(request.ingredientIds())
+                .stream()
+                .map(ingredientMapper::toIngredientDto)
+                .toList();
     }
 }

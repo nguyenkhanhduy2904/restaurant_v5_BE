@@ -3,6 +3,7 @@ package com.nkduy.restaurant_application.ingredient.controller;
 import com.nkduy.restaurant_application.auth.dto.ApiResponse;
 import com.nkduy.restaurant_application.ingredient.dto.model.IngredientDto;
 import com.nkduy.restaurant_application.ingredient.dto.request.CreateIngredientRequest;
+import com.nkduy.restaurant_application.ingredient.dto.request.IngredientListRequest;
 import com.nkduy.restaurant_application.ingredient.dto.request.UpdateIngredientRequest;
 import com.nkduy.restaurant_application.ingredient.dto.response.CreateIngredientResponse;
 import com.nkduy.restaurant_application.ingredient.dto.response.UpdateIngredientResponse;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/ingredient")
@@ -49,6 +52,12 @@ public class IngredientController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<UpdateIngredientResponse> updateIngredient(@PathVariable String id, @Valid @RequestBody UpdateIngredientRequest request){
         return ApiResponse.ok(ingredientService.updateIngredient(id, request));
+    }
+
+    @GetMapping("/list")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<List<IngredientDto>> getIngredientsList(@RequestBody IngredientListRequest request){
+        return ApiResponse.ok(ingredientService.getList(request));
     }
 
 
